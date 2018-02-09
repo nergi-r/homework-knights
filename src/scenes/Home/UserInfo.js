@@ -13,13 +13,13 @@ export default class UserInfo extends Component {
             <View
                 style={styles.topContainer}>
                 <Image
-                    source={require('../../assets/user.png')}
-                    borderRadius={100} />
+                    source={this.props.photo}
+                    style={styles.profileImage} />
                 <View
                     style={styles.userInfoContainer}>
                     <Text
                         style={[styles.text, styles.titleText]}>
-                        Albert Darmawan
+                        {this.props.name}
                     </Text>
                     <View
                         style={styles.infoContainer}>
@@ -28,7 +28,7 @@ export default class UserInfo extends Component {
                             source={require('../../assets/gold.png')} />
                         <Text
                             style={[styles.text, styles.infoText]}>
-                            1123 golds
+                            {this.props.gold?`${this.props.gold} golds`:''}
                         </Text>
                     </View>
                     <View
@@ -38,7 +38,7 @@ export default class UserInfo extends Component {
                             source={require('../../assets/heart.png')} />
                         <Text
                             style={[styles.text, styles.infoText]}>
-                            1337
+                            {this.props.health}
                         </Text>
                     </View>
                 </View>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         resizeMode: 'contain',
+        borderRadius: 100,
     },
     userInfoContainer: {
         flexDirection: 'column',
