@@ -10,7 +10,7 @@ const challengeList = (props) => {
 		<View>
 			<FlatList
 				data={props.challenges}
-				renderItem={(info)=> (
+				renderItem={(info)=> (	
 					<ChallengeItem
 						itemInfo={info.item}
 						onItemTouched={() => props.onItemSelected(info.item.key)}
