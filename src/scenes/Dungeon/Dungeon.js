@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
 import LastAttack from './LastAttack';
+import Enemy from './Enemy';
 
 export default class Dungeon extends Component {
     constructor(props) {
@@ -30,6 +31,7 @@ export default class Dungeon extends Component {
                     <Text style={textStyle}>Last Attack</Text>
                     <LastAttack />
                 </View>
+                <Enemy />
             </View>
         )
     }
