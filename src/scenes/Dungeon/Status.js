@@ -4,15 +4,32 @@ import { WHITE_COLOR, PINK_COLOR, RED_COLOR } from '../../ColorHexa';
 import { attackDragon } from '../../services';
 
 export default class Status extends Component {
-    state = {
-        currentWeapon: null
-    };
+
+    constructor(props){
+        super(props);
+        this.state = {
+            currentWeapon: null,
+        };
+    }
 
     componentWillReceiveProps(nextProps) {
         if(this.state.currentWeapon === null && nextProps.user.weapons) {
             nextProps.user.weapons.forEach((weapon) => {
                 if(weapon.count > 0) {
-                    this.setState({ currentWeapon: weapon });
+                    this.setState({ 
+                        currentWeapon: weapon 
+                    });
+                }
+            })
+        }
+        else {
+            nextProps.user.weapons.forEach(weapon => {
+                if(weapon.name == this.state.currentWeapon.name){
+                    if(weapon.count <= 0) {
+                        this.setState({
+                            currentWeapon: null,
+                        });
+                    }
                 }
             })
         }
