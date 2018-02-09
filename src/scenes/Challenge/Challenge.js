@@ -4,16 +4,24 @@ import {
 } from 'react-native';
 import ChallengeList from './ChallengeList';
 import { RED_COLOR, BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
+import MS from '../Styles';
+import TabIcon from '../../components/TabIcon';
+import {
+    TabNavigator
+} from 'react-navigation';
 
 export default class Challenge extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Challenges',
-        headerStyle: {
-            backgroundColor: BLACK_COLOR,
-        },
-        headerTitleStyle: {
-            color: WHITE_COLOR,
-        },
+        headerStyle: [
+            MS.headerStyle, 
+            MS.headerShadowlessStyle
+        ],
+        headerTitleStyle: MS.headerTitleStyle,
+        tabBarIcon: (
+            <TabIcon
+                source={require('../../assets/menu/challenges.png')} />
+        ),
     })
 
     constructor(props) {

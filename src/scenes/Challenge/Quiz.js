@@ -10,16 +10,16 @@ import {
 import Swiper from 'react-native-deck-swiper';
 import TimerCountdown from 'react-native-timer-countdown';
 import { GREEN_COLOR, BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
+import MS from '../Styles';
 
 export default class Quiz extends Component {
 	static navigationOptions = ({navigation}) => ({
-        title: navigation.state.params.name,
-        headerStyle: {
-            backgroundColor: BLACK_COLOR,
-        },
-        headerTitleStyle: {
-            color: WHITE_COLOR,
-        },
+		title: navigation.state.params.name,
+        headerStyle: [
+            MS.headerStyle, 
+            MS.headerShadowlessStyle
+        ],
+        headerTitleStyle: MS.headerTitleStyle,
     });
 
 	constructor(props) {
