@@ -89,9 +89,10 @@ export default class Quiz extends Component {
 			        }}
 		            cards={this.props.navigation.state.params.questions}
 		            renderCard={(question) => {
+		            	console.log(question);
 		                return (
 		                    <View style={styles.questionCard}>
-		                    	<Image style={styles.questionImage} source={question.image} />
+		                    	<Image style={styles.questionImage} source={{uri: 'https://firebasestorage.googleapis.com/v0/b/homework-knights.appspot.com/o/subjects%2Fmath-questions.png?alt=media&token=6dce0d92-40c1-493b-9681-1307a459e625'}} />
 		                    	<Text style={styles.questionText} >{question.description}</Text>
 		                    	<View style={styles.questionChoicesContainer}>
 		                    		<TouchableOpacity 
