@@ -12,7 +12,7 @@ const challengeItem = (props) => {
 	return (
 		<TouchableOpacity onPress={props.onItemTouched}>
 			<View style={styles.mainContainer}>
-				<Image style={styles.challengeIcon} source={props.itemInfo.icon} />
+				<Image style={styles.challengeIcon} source={{uri: props.itemInfo.icon}} />
 				<View style={styles.challengeText}>
 					<Text style={styles.challengeName}>{props.itemInfo.name}</Text>
 					<View style={styles.goldContainer}>

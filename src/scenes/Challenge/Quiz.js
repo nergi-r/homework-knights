@@ -12,6 +12,7 @@ import Swiper from 'react-native-deck-swiper';
 import TimerCountdown from 'react-native-timer-countdown';
 import { GREEN_COLOR, BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
 import MS from '../Styles';
+import { incrementGold } from '../../services';
 
 export default class Quiz extends Component {
 	static navigationOptions = ({navigation}) => ({
@@ -21,6 +22,16 @@ export default class Quiz extends Component {
             MS.headerShadowlessStyle
         ],
         headerTitleStyle: MS.headerTitleStyle,
+        headerRight: (
+        	<View
+        		style={{
+        			flex: 1,
+        			marginRight: 15,
+        		}}>
+        		<Text>{navigation.state.params.userGolds}</Text>
+        	</View>
+        )
+
     });
 
 	constructor(props) {
@@ -67,9 +78,10 @@ export default class Quiz extends Component {
 		});
 	};
 
-	onAnswered = (choiceIndex, correctAnswerIndex)=> {
+	onAnswered = (choiceIndex, correctAnswerIndex, golds)=> {
 		if (choiceIndex === correctAnswerIndex) {
 			this.onSwipeRightMechanism();
+			incrementGold(golds);
 		}
 		else {
 			this.onSwipeLeftMechanism();
@@ -91,19 +103,19 @@ export default class Quiz extends Component {
 		            renderCard={(question) => {
 		                return (
 		                    <View style={styles.questionCard}>
-		                    	<Image style={styles.questionImage} source={question.image} />
+		                    	<Image style={styles.questionImage} source={{uri: question.image}} />
 		                    	<Text style={styles.questionText} >{question.description}</Text>
 		                    	<View style={styles.questionChoicesContainer}>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {this.onAnswered(0,question.answerIndex)}}>
+		                    			onPress={()=> {this.onAnswered(0,question.answerIndex, question.golds)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[0]}
 		                    			</Text>
 		                    		</TouchableOpacity>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {this.onAnswered(2,question.answerIndex)}}>
+		                    			onPress={()=> {this.onAnswered(2,question.answerIndex, question.golds)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[2]}
 		                    			</Text>
@@ -112,14 +124,14 @@ export default class Quiz extends Component {
 		                    	<View style={styles.questionChoicesContainer}>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {this.onAnswered(1,question.answerIndex)}}>
+		                    			onPress={()=> {this.onAnswered(1,question.answerIndex, question.golds)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[1]}
 		                    			</Text>
 		                    		</TouchableOpacity>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {this.onAnswered(3,question.answerIndex)}}>
+		                    			onPress={()=> {this.onAnswered(3,question.answerIndex, question.golds)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[3]}
 		                    			</Text>
@@ -172,6 +184,8 @@ const styles = StyleSheet.create({
 	},
 	questionImage: {
 		height: 150,
+		width: 150,
+		resizeMode: 'contain'
 	},
 	questionText: {
 		fontSize: 25,
