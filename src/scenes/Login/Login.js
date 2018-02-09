@@ -7,7 +7,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     AsyncStorage,
-    ActivityIndicator
+    ActivityIndicator,
+    KeyboardAvoidingView,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { GREEN_COLOR, WHITE_COLOR, PINK_COLOR } from '../../ColorHexa';
@@ -66,7 +67,9 @@ export default class Login extends Component {
         const { navigate } = this.props.navigation;
 
         return(
-            <View style={container}>
+            <KeyboardAvoidingView
+                style={container}
+                behavior='padding'>
                 <Image source={require('../../assets/splash-screen/splash-logo.png')}
                         style={logoContainer} />
                 <View>
@@ -103,7 +106,7 @@ export default class Login extends Component {
                             <Text style={buttonTextStyle}>Login</Text>
                         </TouchableOpacity>
                 }
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
