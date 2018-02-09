@@ -98,6 +98,7 @@ export default class Challenge extends Component {
         });
         this.props.navigation.navigate('Quiz',{
             ...selectedChallenge,
+            refreshCallback: this._handleChallengesFetched,
             userGolds: this.state.user.golds,
         });
     };
