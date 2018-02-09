@@ -99,7 +99,10 @@ export default class Login extends Component {
 
                 {
                     this.state.isLoading
-                    ?   <ActivityIndicator size='large' style={{marginTop: 20}} />
+                    ?   <ActivityIndicator 
+                            size='large' 
+                            style={{marginTop: 20}}
+                            color={WHITE_COLOR} />
                     :   <TouchableOpacity style={buttonStyle}
                             onPress={this._handleLogin}
                         >

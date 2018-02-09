@@ -7,6 +7,8 @@ import LastAttack from './LastAttack';
 import Enemy from './Enemy';
 import { fetchUser, fetchDragon } from '../../services';
 
+import TabIcon from '../../components/TabIcon';
+
 export default class Dungeon extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +49,11 @@ export default class Dungeon extends Component {
         },
         headerTitleStyle: {
             color: WHITE_COLOR
-        }
+        },
+        tabBarIcon: (
+            <TabIcon
+                source={require('../../assets/menu/dungeon.png')} />
+        ),
     })
 
     render() {
@@ -57,7 +63,7 @@ export default class Dungeon extends Component {
             <View style={container}>
                 <View style={lastAttackContainer}>
                     <Text style={textStyle}>Last Attack</Text>
-                    <LastAttack />
+                    <LastAttack list={this.state.dragon.lastAttack} />
                 </View>
                 <Enemy user={this.state.user} dragon={this.state.dragon} />
             </View>
