@@ -6,3 +6,4 @@ export const GREEN_COLOR = '#1ABC9C';
 export const BLUE_COLOR = '#3498DB';
 export const PINK_COLOR = '#EE2560';
 export const BLACK_LIGHT_COLOR = '#425970';
+export const GREY_COLOR = '#e3e4e5';

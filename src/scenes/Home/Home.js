@@ -74,7 +74,9 @@ export default class Home extends Component {
         ],
         headerRight: (
             <TouchableOpacity
-                onPress={() => { alert('Settings') }}
+                onPress={() => {
+                    navigation.navigate('Settings');    
+                }}
                 style={{
                     marginRight: 15,
                 }}>

@@ -7,6 +7,7 @@ import Leaderboard from './scenes/Leaderboard/Leaderboard';
 import Challenge from './scenes/Challenge/Challenge';
 import Shop from './scenes/Shop/Shop';
 import Quiz from './scenes/Challenge/Quiz';
+import Settings from './scenes/Settings/Settings';
 
 import { 
     BLACK_COLOR, 
@@ -56,6 +57,9 @@ const Stack = StackNavigator({
     },
     Quiz: {
         screen: Quiz,
+    },
+    Settings: {
+        screen: Settings,
     },
 })
 
