@@ -6,16 +6,21 @@ import {
 } from 'react-native';
 import { BLACK_COLOR, PURPLE_COLOR, WHITE_COLOR } from '../../ColorHexa';
 import LeaderboardList from './LeaderboardList';
+import TabIcon from '../../components/TabIcon';
 
 export default class Leaderboard extends Component {
     static navigationOptions = ({navigation}) => ({
-        title: 'Leaderboard',
+        title: 'Leaderboards',
         headerStyle: {
             backgroundColor: BLACK_COLOR
         },
         headerTitleStyle: {
             color: WHITE_COLOR,
         },
+        tabBarIcon: (
+            <TabIcon
+                source={require('../../assets/menu/leaderboards.png')} />
+        ),
     })
 
     render(){
