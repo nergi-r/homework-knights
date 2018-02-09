@@ -13,6 +13,7 @@ export const fetchDragon = (callback, uid) => {
     })
 }
 
-export const attackDragon = (weapon, dragon, user) => {
-    
+export const attackDragon = (weapon, user, dragon) => {
+    console.log(weapon, dragon, user);
+    // firebase.database().ref(`/dragons/${dragon.`)
 }

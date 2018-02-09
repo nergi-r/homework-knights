@@ -64,7 +64,7 @@ export default class Enemy extends Component {
                     <Text style={damageStyle}>-{this.state.damage}</Text>
                 </Animated.View>
 
-                <Status user={this.props.user} />
+                <Status user={this.props.user} dragon={this.props.dragon} />
             </View>
         );
     }
