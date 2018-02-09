@@ -50,8 +50,8 @@ export class Item extends PureComponent {
                         style={[
                             styles.image,
                             {
-                                width: this.state.width/3-15,
-                                height: this.state.width/3-15,
+                                width: this.state.width/3-20,
+                                height: this.state.width/3-20,
                             },
                         ]} />
                     {this.props.children}
