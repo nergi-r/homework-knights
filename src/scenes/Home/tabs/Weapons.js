@@ -25,9 +25,20 @@ export default class Weapons extends Component {
         }
         return(
             <Item
-                source={item.source}
+                source={{uri: item.photoURL}}
                 index={index}
                 onPress={this._handleItemSelected}>
+                <ItemText
+                    text={item.displayName}
+                    textStyle={{
+                        fontWeight: 'bold',
+                    }} />
+                <ItemText
+                    text={`${item.minDamage}-${item.maxDamage}`}
+                    source={require('../../../assets/weapons/sword.png')}
+                    imageStyle={{
+                        width: 10,
+                    }} />
                 <ItemText
                     text={`x${item.count}`} />
             </Item>
@@ -41,7 +52,10 @@ export default class Weapons extends Component {
     render(){
         var weapons = [];
         if(this.props.screenProps&&this.props.screenProps.weapons){
-            weapons = this.props.screenProps.weapons.slice();
+            this.props.screenProps.weapons.forEach(e => {
+                if(e.count>0) weapons.push(e);
+            });
+
             while(weapons.length%3){
                 weapons.push({
                     empty: true,

@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import MS from '../../Styles';
 import { Item, ItemText } from '../../../components/Item/Item';
+import { usePotion } from '../../../services';
 
 export default class Potions extends Component {
 
@@ -25,9 +26,17 @@ export default class Potions extends Component {
         }
         return(
             <Item
-                source={item.source}
+                source={{uri: item.photoURL}}
                 index={index}
                 onPress={this._handleItemSelected}>
+                <ItemText
+                    text={item.displayName}
+                    textStyle={{
+                        fontWeight: 'bold',
+                    }} />
+                <ItemText
+                    text={item.heal}
+                    source={require('../../../assets/heart.png')} />
                 <ItemText
                     text={`x${item.count}`} />
             </Item>
@@ -35,22 +44,26 @@ export default class Potions extends Component {
     }
 
     _handleItemSelected = (index) => {
-        alert(index);
+        usePotion(this._potions[index]);
     }
 
+    _potions = [];
+
     render(){
-        var potions = [];
+        this._potions = [];
         if(this.props.screenProps&&this.props.screenProps.potions){
-            potions = this.props.screenProps.potions.slice();
-            while(potions.length%3){
-                potions.push({
+            this.props.screenProps.potions.forEach(e => {
+                if(e.count>0) this._potions.push(e);
+            });
+            while(this._potions.length%3){
+                this._potions.push({
                     empty: true,
                 })
             }
         }
         return(
             <FlatList
-                data={potions}
+                data={this._potions}
                 keyExtractor={(item, index) => index}
                 renderItem={this._renderItem}
                 style={{flex: 1,}}
