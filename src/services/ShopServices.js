@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 export const fetchWeapons = () => {
-    return firebase.database.ref('/weapons').once('value');
+    return firebase.database().ref('/weapons').once('value');
 }
 
 export const buyWeapon = async (uid, price) => {
@@ -23,7 +23,7 @@ export const buyWeapon = async (uid, price) => {
 }
 
 export const fetchPotions = () => {
-    return firebase.database.ref('/potions').once('value');
+    return firebase.database().ref('/potions').once('value');
 }
 
 export const buyPotion = async (uid, price) => {

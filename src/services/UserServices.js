@@ -29,7 +29,6 @@ export const fetchUser = (callback) => {
                 }
                 user.weapons = weapons;
                 user.potions = potions;
-                console.log(user);
                 return user;
             })
             .then((user) => callback(user));

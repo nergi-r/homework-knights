@@ -8,12 +8,63 @@ import {
     TabNavigator
 } from 'react-navigation';
 
+//Firebase
+import { fetchWeapons, fetchPotions } from '../../services';
+
 //Tabs
 import Weapons from './tabs/Weapons';
 import Potions from './tabs/Potions';
 import { BLACK_COLOR, BLUE_COLOR } from '../../ColorHexa';
 
+import _ from 'lodash';
+
 export default class Shop extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            weapons: [],
+            potions: [],
+        }
+
+        this._handlePotionsFetched = this._handlePotionsFetched.bind(this);
+        this._handleWeaponsFetched = this._handleWeaponsFetched.bind(this);
+    }
+
+    componentDidMount = () => {
+        fetchPotions()
+        .then(potions => {
+            console.log(potions);
+            let pot = _.map(potions, (val) => {
+                return { ...val }
+            });
+            console.log(pot);
+            this._handlePotionsFetched(pot);
+        })
+
+        fetchWeapons()
+        .then(weapons => {
+            // console.log(weapons);
+            let weap = _.map(weapons, (val) => {
+                return { ...val }
+            });
+            this._handleWeaponsFetched(weap);
+        })
+    }
+
+    _handleWeaponsFetched = (weapons) => {
+        console.log(weapons);
+        this.setState({
+            weapons,
+        })
+    }
+
+    _handlePotionsFetched = (potions) => {
+        this.setState({
+            potions,
+        })
+    }
+
     static navigationOptions = ({navigation}) => ({
         title: 'Shop',
         headerStyle: [
