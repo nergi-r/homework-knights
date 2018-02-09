@@ -54,7 +54,6 @@ export default class Shop extends Component {
     }
 
     _handleWeaponsFetched = (weapons) => {
-        console.log(weapons);
         this.setState({
             weapons,
         })

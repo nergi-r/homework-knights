@@ -13,7 +13,7 @@ export default class Enemy extends Component {
         if(this.props.dragon.health !== nextProps.dragon.health) {
             const damage = this.props.dragon.health - nextProps.dragon.health;
             this.setState({damage});
-            
+            if(Math.abs(damage) > 5000) return;
             Animated.sequence([
                 Animated.timing(
                   this.state.fadeDamageAnim,
@@ -26,7 +26,7 @@ export default class Enemy extends Component {
                   this.state.fadeDamageAnim,
                   {
                     toValue: 0,
-                    duration: 2000,
+                    duration: 1000,
                   }
                 ),
             ]).start();

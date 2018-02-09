@@ -57,7 +57,7 @@ export default class Dungeon extends Component {
             <View style={container}>
                 <View style={lastAttackContainer}>
                     <Text style={textStyle}>Last Attack</Text>
-                    <LastAttack />
+                    <LastAttack list={this.state.dragon.lastAttack} />
                 </View>
                 <Enemy user={this.state.user} dragon={this.state.dragon} />
             </View>
