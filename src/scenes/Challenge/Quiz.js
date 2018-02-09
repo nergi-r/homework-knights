@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	Image,
 	Animated,
+	Alert
 } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import TimerCountdown from 'react-native-timer-countdown';
@@ -27,24 +28,56 @@ export default class Quiz extends Component {
 		this.state = {
 			fadeAnimCorrect: new Animated.Value(0),
 			fadeAnimWrong: new Animated.Value(0),
+			currentTimeRemaining: 15000,
 		};
-	}
+	};
+
+	onAllSwipedHandler = ()=> {
+		Alert.alert(
+			'No More Question',
+			'We have no more question for you, at least for now!', 
+			[
+				{
+					text: 'Ok',
+					onPress: ()=> {this.props.navigation.goBack()}
+				}
+			]
+		);
+	};
+
+	onSwipeLeftMechanism = ()=> {
+		Animated.sequence([
+			Animated.timing(this.state.fadeAnimWrong, {toValue: 1, duration: 100}),
+			Animated.timing(this.state.fadeAnimWrong, {toValue: 0, duration: 100}),
+		]).start();
+		this.swiper.swipeLeft();
+		this.setState({
+			currentTimeRemaining: 15000
+		});
+	};
+
+	onSwipeRightMechanism = ()=> {
+		Animated.sequence([
+			Animated.timing(this.state.fadeAnimCorrect, {toValue: 1, duration: 100}),
+			Animated.timing(this.state.fadeAnimCorrect, {toValue: 0, duration: 100}),
+		]).start();
+		this.swiper.swipeRight();
+		this.setState({
+			currentTimeRemaining: 15000
+		});
+	};
 
 	onAnswered = (choiceIndex, correctAnswerIndex)=> {
 		if (choiceIndex === correctAnswerIndex) {
-			Animated.sequence([
-				Animated.timing(this.state.fadeAnimCorrect, {toValue: 1, duration: 100}),
-				Animated.timing(this.state.fadeAnimCorrect, {toValue: 0, duration: 100}),
-			]).start();
-			this.swiper.swipeRight();
+			this.onSwipeRightMechanism();
 		}
 		else {
-			Animated.sequence([
-				Animated.timing(this.state.fadeAnimWrong, {toValue: 1, duration: 100}),
-				Animated.timing(this.state.fadeAnimWrong, {toValue: 0, duration: 100}),
-			]).start();
-			this.swiper.swipeLeft();
+			this.onSwipeLeftMechanism();
 		}
+	};
+
+	onTimeOutHandler = () => {
+		this.onSwipeLeftMechanism();
 	};
 
 	render() {
@@ -103,13 +136,20 @@ export default class Quiz extends Component {
 		                    </View>
 		                )
 		            }}
-		            onSwiped={(cardIndex) => {console.log(cardIndex)}}
-		            onSwipedAll={() => {console.log('onSwipedAll')}}
+		            onSwipedAll={() => {this.onAllSwipedHandler()}}
 		            horizontalSwipe={false}
 		            verticalSwipe={false}
 		            cardIndex={0}
 		            backgroundColor={GREEN_COLOR}>
 		        </Swiper>
+		        <View style={styles.timerContainer}>
+			      	<TimerCountdown
+			            initialSecondsRemaining={this.state.currentTimeRemaining}
+			            onTimeElapsed={() => this.onTimeOutHandler()}
+			            allowFontScaling={true}
+			            style={styles.timerText}
+			        />
+				</View>
 		    </View>
 		);
 	}
@@ -117,7 +157,8 @@ export default class Quiz extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		alignItems: 'center',
 	},
 	questionCard: {
 	    flex: 1,
@@ -158,6 +199,15 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-	}
+	},
+	timerContainer: {
+		marginTop: 5,
+		marginBottom: 5,
+		padding: 5,
+	},
+	timerText: {
+		fontSize: 30,
+		color: WHITE_COLOR,
+	},
 
 });
