@@ -40,4 +40,6 @@ export const attackDragon = async (weapon, user, dragon) => {
     await firebase.database().ref(`/users/${currentUser.uid}/health`).transaction((currentValue) => {
         return Math.max(0, currentValue - damageFromDragon);
     })
+
+    return true;
 }
