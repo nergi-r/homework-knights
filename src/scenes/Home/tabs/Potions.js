@@ -25,11 +25,19 @@ export default class Potions extends Component {
         }
         return(
             <Item
-                source={item.source}
+                source={{uri: item.photoURL}}
                 index={index}
                 onPress={this._handleItemSelected}>
                 <ItemText
-                    text={`x${item.count}`} />
+                    text={item.displayName}
+                    textStyle={{
+                        fontWeight: 'bold',
+                    }} />
+                <ItemText
+                    text={item.heal}
+                    source={require('../../../assets/heart.png')} />
+                <ItemText
+                    text={`( x${item.count} )`} />
             </Item>
         )
     }
@@ -41,7 +49,9 @@ export default class Potions extends Component {
     render(){
         var potions = [];
         if(this.props.screenProps&&this.props.screenProps.potions){
-            potions = this.props.screenProps.potions.slice();
+            this.props.screenProps.potions.forEach(e => {
+                if(e.count>0) potions.push(e);
+            });
             while(potions.length%3){
                 potions.push({
                     empty: true,

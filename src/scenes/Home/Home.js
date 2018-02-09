@@ -10,7 +10,13 @@ import {
 
 import {
     TabNavigator,
+    TabBarTop,
 } from 'react-navigation';
+
+//Services
+import { 
+    fetchUser,
+} from '../../services';
 
 //Tabs
 import Weapons from './tabs/Weapons';
@@ -22,6 +28,36 @@ import { BLACK_COLOR, WHITE_COLOR, RED_COLOR } from '../../ColorHexa';
 import UserInfo from './UserInfo';
 
 export default class Home extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            weapons: [],
+            potions: [],
+            name: 'Loading...',
+            gold: 0,
+            health: 0,
+            photo: require('../../assets/user.png'),
+            isLoading: true,
+        }
+    }
+
+    componentDidMount = () => {
+        fetchUser(this._handleUserFetched.bind(this));
+    }
+
+    _handleUserFetched = (user) => {
+        this.setState({
+            weapons: user.weapons,
+            potions: user.potions,
+            name: user.name,
+            photo: {uri: user.photoURL},
+            gold: user.golds,
+            health: user.health,
+            isLoading: false,
+        })
+    }
+
     static navigationOptions = ({navigation}) => ({
         title: '',
         tabBarLabel: 'Home',
@@ -52,48 +88,6 @@ export default class Home extends Component {
         ),
     })
 
-    _weapons = [
-        {
-            source: require('../../assets/weapons/axe.png'),
-            count: 1
-        },
-        {
-            source: require('../../assets/weapons/crossbow.png'),
-            count: 1
-        },
-        {
-            source: require('../../assets/weapons/mace.png'),
-            count: 2
-        },
-        {
-            source: require('../../assets/weapons/spear.png'),
-            count: 3
-        },
-        {
-            source: require('../../assets/weapons/sword.png'),
-            count: 5
-        },
-    ]
-
-    _potions = [
-        {
-            source: require('../../assets/potions/potion.png'),
-            count: 1
-        },
-        {
-            source: require('../../assets/potions/super-potion.png'),
-            count: 1
-        },
-        {
-            source: require('../../assets/potions/hyper-potion.png'),
-            count: 1
-        },
-        {
-            source: require('../../assets/potions/max-potion.png'),
-            count: 1
-        },
-    ]
-
     render(){
         return(
             <View
@@ -102,17 +96,17 @@ export default class Home extends Component {
                     styles.container,
                 ]}>
                 <UserInfo
-                    image={require('../../assets/user.png')}
-                    name='Albert Darmawan'
-                    gold={1123}
-                    health={1337} />
+                    photo={this.state.photo}
+                    name={this.state.name}
+                    gold={this.state.gold}
+                    health={this.state.health} />
                 <HomeTab
                     style={{
                         flex: 1,
                     }}
                     screenProps={{
-                        weapons: this._weapons,
-                        potions: this._potions,
+                        weapons: this.state.weapons,
+                        potions: this.state.potions,
                     }} />
             </View>
         )
@@ -126,14 +120,21 @@ const HomeTab = TabNavigator({
     Potions: {
         screen: Potions,
     }
-}, {tabBarOptions: {
-    indicatorStyle: {
-        backgroundColor: '#FFFFFF',
+}, {
+    tabBarOptions: {
+        indicatorStyle: {
+            backgroundColor: '#FFFFFF',
+        },
+        style: {
+            backgroundColor: BLACK_COLOR,
+        }
     },
-    style: {
-        backgroundColor: BLACK_COLOR,
-    }
-}});
+    tabBarComponent: TabBarTop,
+    tabBarPosition: 'top',
+    swipeEnabled: true,
+    lazy: false,
+    animationEnabled: true,
+});
 
 const styles = StyleSheet.create({
     container: {
