@@ -1,20 +1,34 @@
+import { Asset, AppLoading } from 'expo';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MainApp from './src/App';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: false
+    };
+  }
+
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Ionicons: require('@expo/vector-icons/fonts/Ionicons.ttf')
+    });
+    this.setState({
+      isReady: true
+    });
+  }
+
   render() {
-    return (
-      <MainApp />
-    );
+    if (!this.state.isReady) {
+      return (<AppLoading/>);
+    }
+    else {
+      return (
+        <MainApp />
+      );
+    }
+    
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
