@@ -5,6 +5,7 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
+	Animated,
 } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import TimerCountdown from 'react-native-timer-countdown';
@@ -23,8 +24,28 @@ export default class Quiz extends Component {
 
 	constructor(props) {
 		super(props);
-		//console.log(props);
+		this.state = {
+			fadeAnimCorrect: new Animated.Value(0),
+			fadeAnimWrong: new Animated.Value(0),
+		};
 	}
+
+	onAnswered = (choiceIndex, correctAnswerIndex)=> {
+		if (choiceIndex === correctAnswerIndex) {
+			Animated.sequence([
+				Animated.timing(this.state.fadeAnimCorrect, {toValue: 1, duration: 100}),
+				Animated.timing(this.state.fadeAnimCorrect, {toValue: 0, duration: 100}),
+			]).start();
+			this.swiper.swipeRight();
+		}
+		else {
+			Animated.sequence([
+				Animated.timing(this.state.fadeAnimWrong, {toValue: 1, duration: 100}),
+				Animated.timing(this.state.fadeAnimWrong, {toValue: 0, duration: 100}),
+			]).start();
+			this.swiper.swipeLeft();
+		}
+	};
 
 	render() {
 		return (
@@ -42,14 +63,14 @@ export default class Quiz extends Component {
 		                    	<View style={styles.questionChoicesContainer}>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {console.log('0 has chosen!')}}>
+		                    			onPress={()=> {this.onAnswered(0,question.answerIndex)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[0]}
 		                    			</Text>
 		                    		</TouchableOpacity>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {console.log('2 has chosen!')}}>
+		                    			onPress={()=> {this.onAnswered(2,question.answerIndex)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[2]}
 		                    			</Text>
@@ -58,18 +79,26 @@ export default class Quiz extends Component {
 		                    	<View style={styles.questionChoicesContainer}>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {console.log('1 has chosen!')}}>
+		                    			onPress={()=> {this.onAnswered(1,question.answerIndex)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[1]}
 		                    			</Text>
 		                    		</TouchableOpacity>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
-		                    			onPress={()=> {console.log('3 has chosen!')}}>
+		                    			onPress={()=> {this.onAnswered(3,question.answerIndex)}}>
 		                    			<Text style={styles.questionChoiceButtonText}>
 		                    			{question.choices[3]}
 		                    			</Text>
 		                    		</TouchableOpacity>
+		                    	</View>
+		                    	<View style={styles.questionMarksContainer}>
+		                    		<Animated.Image 
+		                    			style={ {opacity: this.state.fadeAnimWrong } } 
+		                    			source={ require('../../assets/wrong.png')} />
+		                    		<Animated.Image 
+		                    			style={ {opacity: this.state.fadeAnimCorrect }}
+		                    			source={require('../../assets/correct.png')} />
 		                    	</View>
 		                    </View>
 		                )
@@ -125,5 +154,10 @@ const styles = StyleSheet.create({
 		color: WHITE_COLOR,
 		fontSize: 20,
 	},
+	questionMarksContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+	}
 
 });
