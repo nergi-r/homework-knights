@@ -3,11 +3,17 @@ import {
     View, StyleSheet
 } from 'react-native';
 import ChallengeList from './ChallengeList';
-import { RED_COLOR } from '../../ColorHexa';
+import { RED_COLOR, BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
 
 export default class Challenge extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Challenges',
+        headerStyle: {
+            backgroundColor: BLACK_COLOR,
+        },
+        headerTitleStyle: {
+            color: WHITE_COLOR,
+        },
     })
 
     constructor(props) {
@@ -18,7 +24,21 @@ export default class Challenge extends Component {
                     key: 1,
                     name: 'Mathematics',
                     icon: require('../../assets/subjects/mathematics.png'),
-                    remainingGolds: 150
+                    remainingGolds: 150, 
+                    questions: [
+                        {
+                            image: require('../../assets/subjects/math-questions.png'),
+                            description: 'Panjang AC adalah...',
+                            choices: ['22 cm','24 cm','17 cm','18 cm'],
+                            answerIndex: 1
+                        },
+                        {
+                            image: require('../../assets/subjects/math-questions.png'),
+                            description: 'Panjang AC sekarang adalah ...',
+                            choices: ['24 cm','22 cm','17 cm','18 cm'],
+                            answerIndex: 0
+                        },
+                    ]
                 },
                 {
                     key: 2,
@@ -43,7 +63,10 @@ export default class Challenge extends Component {
     }
 
     onChallengeSelectedHandler = (key) => {
-        console.log(key + " is selected");
+        var selectedChallenge = this.state.challenges.find((challenge) => {
+            return (challenge.key===key);
+        });
+        this.props.navigation.navigate('Quiz',selectedChallenge);
     };
 
     render(){

@@ -6,7 +6,7 @@ import Home from './scenes/Home/Home';
 import Leaderboard from './scenes/Leaderboard/Leaderboard';
 import Challenge from './scenes/Challenge/Challenge';
 import Shop from './scenes/Shop/Shop';
-
+import Quiz from './scenes/Challenge/Quiz';
 const Tab = TabNavigator({
     Home: {
         screen: Home,
@@ -37,6 +37,9 @@ const Stack = StackNavigator({
     },
     Main: {
         screen: Tab,
+    },
+    Quiz: {
+        screen: Quiz,
     },
 })
 
