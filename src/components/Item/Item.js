@@ -68,9 +68,9 @@ export class ItemText extends PureComponent {
                 style={styles.itemContainer}>
                 <Image
                     source={this.props.source}
-                    style={styles.itemImage} />
+                    style={[styles.itemImage, this.props.imageStyle]} />
                 <Text
-                    style={styles.itemText}>
+                    style={[styles.itemText, this.props.textStyle]}>
                     {this.props.text}
                 </Text>
             </View>
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
         resizeMode: 'contain',
+        marginRight: 5,
     },
     itemText: {
         fontSize: 18,
