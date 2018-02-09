@@ -44,4 +44,5 @@ export const usePotion = async(potion) => {
     await firebase.database().ref(`/users/${currentUser.uid}/health`).transaction((currentValue) => {
         return currentValue + potion.heal;
     })
+    return true;
 }

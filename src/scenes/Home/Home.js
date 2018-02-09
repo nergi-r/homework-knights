@@ -35,8 +35,8 @@ export default class Home extends Component {
             weapons: [],
             potions: [],
             name: 'Loading...',
-            gold: 0,
-            health: 0,
+            gold: null,
+            health: null,
             photo: require('../../assets/user.png'),
             isLoading: true,
         }

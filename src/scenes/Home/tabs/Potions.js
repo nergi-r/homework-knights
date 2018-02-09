@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import MS from '../../Styles';
 import { Item, ItemText } from '../../../components/Item/Item';
+import { usePotion } from '../../../services';
 
 export default class Potions extends Component {
 
@@ -37,30 +38,32 @@ export default class Potions extends Component {
                     text={item.heal}
                     source={require('../../../assets/heart.png')} />
                 <ItemText
-                    text={`( x${item.count} )`} />
+                    text={`x${item.count}`} />
             </Item>
         )
     }
 
     _handleItemSelected = (index) => {
-        alert(index);
+        usePotion(this._potions[index]);
     }
 
+    _potions = [];
+
     render(){
-        var potions = [];
+        this._potions = [];
         if(this.props.screenProps&&this.props.screenProps.potions){
             this.props.screenProps.potions.forEach(e => {
-                if(e.count>0) potions.push(e);
+                if(e.count>0) this._potions.push(e);
             });
-            while(potions.length%3){
-                potions.push({
+            while(this._potions.length%3){
+                this._potions.push({
                     empty: true,
                 })
             }
         }
         return(
             <FlatList
-                data={potions}
+                data={this._potions}
                 keyExtractor={(item, index) => index}
                 renderItem={this._renderItem}
                 style={{flex: 1,}}

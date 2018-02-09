@@ -10,11 +10,11 @@ export const buyWeapon = async (uid, price) => {
         .then(async (snapshot) => {
             if(snapshot.val() < price) return false;
 
-            firebase.database().ref(`/users/${currentUser.uid}/golds`).transaction((currentValue) => {
+            await firebase.database().ref(`/users/${currentUser.uid}/golds`).transaction((currentValue) => {
                 return currentValue - price;
             })
 
-            firebase.database().ref(`/users/${currentUser.uid}/weapons/${uid}`).transaction((currentValue) => {
+            await firebase.database().ref(`/users/${currentUser.uid}/weapons/${uid}`).transaction((currentValue) => {
                 return currentValue + 1;
             })
 
@@ -32,11 +32,11 @@ export const buyPotion = async (uid, price) => {
         .then(async (snapshot) => {
             if(snapshot.val() < price) return false;
 
-            firebase.database().ref(`/users/${currentUser.uid}/golds`).transaction((currentValue) => {
+            await firebase.database().ref(`/users/${currentUser.uid}/golds`).transaction((currentValue) => {
                 return currentValue - price;
             })
 
-            firebase.database().ref(`/users/${currentUser.uid}/potions/${uid}`).transaction((currentValue) => {
+            await firebase.database().ref(`/users/${currentUser.uid}/potions/${uid}`).transaction((currentValue) => {
                 return currentValue + 1;
             })
 

@@ -34,19 +34,20 @@ export default class Shop extends Component {
     componentDidMount = () => {
         fetchPotions()
         .then(potions => {
-            console.log(potions);
-            let pot = _.map(potions, (val) => {
-                return { ...val }
+            let pot = _.map(potions.val(), val => {
+                return {
+                    ...val
+                };
             });
-            console.log(pot);
             this._handlePotionsFetched(pot);
         })
 
         fetchWeapons()
         .then(weapons => {
-            // console.log(weapons);
-            let weap = _.map(weapons, (val) => {
-                return { ...val }
+            let weap = _.map(weapons.val(), val => {
+                return {
+                    ...val
+                };
             });
             this._handleWeaponsFetched(weap);
         })
@@ -78,52 +79,6 @@ export default class Shop extends Component {
         ),
     })
 
-    _weapons = [
-        {
-            source: require('../../assets/weapons/axe.png'),
-            price: 100
-        },
-        {
-            source: require('../../assets/weapons/crossbow.png'),
-            price: 100
-        },
-        {
-            source: require('../../assets/weapons/mace.png'),
-            price: 200
-        },
-        {
-            source: require('../../assets/weapons/spear.png'),
-            price: 300
-        },
-        {
-            source: require('../../assets/weapons/sword.png'),
-            price: 500
-        },
-    ]
-
-    _potions = [
-        {
-            source: require('../../assets/potions/potion.png'),
-            price: 1000,
-            health: 100,
-        },
-        {
-            source: require('../../assets/potions/super-potion.png'),
-            price: 4000,
-            health: 200,
-        },
-        {
-            source: require('../../assets/potions/hyper-potion.png'),
-            price: 0,
-            health: 300,
-        },
-        {
-            source: require('../../assets/potions/max-potion.png'),
-            price: 4500,
-            health: 400,
-        },
-    ]
-
     render(){
         return(
             <View
@@ -135,8 +90,8 @@ export default class Shop extends Component {
                 ]}>
                 <ShopTab
                     screenProps={{
-                        weapons: this._weapons,
-                        potions: this._potions,
+                        weapons: this.state.weapons,
+                        potions: this.state.potions,
                     }} />
             </View>
         )

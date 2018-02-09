@@ -34,13 +34,13 @@ export default class Weapons extends Component {
                         fontWeight: 'bold',
                     }} />
                 <ItemText
-                    text={`${item.minDamage} - ${item.maxDamage}`}
+                    text={`${item.minDamage}-${item.maxDamage}`}
                     source={require('../../../assets/weapons/sword.png')}
                     imageStyle={{
                         width: 10,
                     }} />
                 <ItemText
-                    text={`( x${item.count} )`} />
+                    text={`x${item.count}`} />
             </Item>
         )
     }

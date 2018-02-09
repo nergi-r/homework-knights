@@ -3,9 +3,11 @@ import {
     View,
     FlatList,
     Text,
+    Alert,
 } from 'react-native';
 import MS from '../../Styles';
 import { Item, ItemText } from '../../../components/Item/Item';
+import { buyWeapon } from '../../../services';
 
 export default class Weapons extends Component {
 
@@ -25,9 +27,20 @@ export default class Weapons extends Component {
         }
         return(
             <Item
-                source={item.source}
+                source={{uri: item.photoURL}}
                 index={index}
                 onPress={this._handleItemSelected}>
+                <ItemText
+                    text={item.displayName}
+                    textStyle={{
+                        fontWeight: 'bold',
+                    }} />
+                <ItemText
+                    text={`${item.minDamage} - ${item.maxDamage}`}
+                    source={require('../../../assets/weapons/sword.png')}
+                    imageStyle={{
+                        width: 10,
+                    }} />
                 <ItemText
                     source={require('../../../assets/gold.png')}
                     text={`${item.price}`} />
@@ -36,22 +49,52 @@ export default class Weapons extends Component {
     }
 
     _handleItemSelected = (index) => {
-        alert(index);
+        Alert.alert(
+            'Purchase',
+            'Are you sure you want to purchase ' + this._weapons[index].displayName + ' for ' + this._weapons[index].price + ' golds?',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => { }
+                },
+                {
+                    text: 'Purchase',
+                    onPress: () => {
+                        buyWeapon(this._weapons[index].name, this._weapons[index].price)
+                        .then(res => {
+                            var result = '';
+                            if(res){
+                                result = this._weapons[index].displayName + ' has been purchased!';
+                            }
+                            else {
+                                result = 'Insufficient gold';
+                            }
+                            Alert.alert(
+                                'Purchase',
+                                result,
+                            );
+                        })
+                    }
+                }
+            ]
+        )
     }
 
+    _weapons = [];
+
     render(){
-        var weapons = [];
+        this._weapons = [];
         if(this.props.screenProps&&this.props.screenProps.weapons){
-            weapons = this.props.screenProps.weapons.slice();
-            while(weapons.length%3){
-                weapons.push({
+            this._weapons = this.props.screenProps.weapons.slice();
+            while(this._weapons.length%3){
+                this._weapons.push({
                     empty: true,
                 })
             }
         }
         return(
             <FlatList
-                data={weapons}
+                data={this._weapons}
                 keyExtractor={(item, index) => index}
                 renderItem={this._renderItem}
                 style={{flex: 1,}}
