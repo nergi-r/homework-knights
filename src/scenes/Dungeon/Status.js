@@ -66,6 +66,7 @@ export default class Status extends Component {
                 <Modal 
                     isVisible={this.state.modalVisibility}
                     onBackdropPress={()=> this.setState({modalVisibility:false})}
+                    onBackButtonPress={() => this.setState({ modalVisibility: false })}
                 >
                     <View
                         style={{
@@ -75,7 +76,7 @@ export default class Status extends Component {
                         <FlatList
                             style={{flex: 1}}
                             renderItem={({item, index}) => {
-                                if(item.empty){
+                                if(item.count === 0){
                                     return(<View style={{flex: 1}}></View>);
                                 }
                                 return (
@@ -116,6 +117,7 @@ export default class Status extends Component {
                 <TouchableOpacity
                     onPress={() => attackDragon(this.state.currentWeapon, this.props.user, this.props.dragon)}
                     style={buttonStyle}
+                    disabled={this.state.currentWeapon === null}
                 >
                     <Text style={buttonTextStyle}>ATTACK</Text>
                 </TouchableOpacity>
