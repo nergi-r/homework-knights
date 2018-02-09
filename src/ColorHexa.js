@@ -5,3 +5,4 @@ export const PURPLE_COLOR = '#8E44AD';
 export const GREEN_COLOR = '#1ABC9C'; 
 export const BLUE_COLOR = '#3498DB';
 export const PINK_COLOR = '#EE2560';
+export const BLACK_LIGHT_COLOR = '#425970';
