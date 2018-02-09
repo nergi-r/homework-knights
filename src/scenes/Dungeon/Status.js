@@ -65,7 +65,19 @@ export default class Status extends Component {
             <View style={container}>
                 <Modal 
                     isVisible={this.state.modalVisibility}
-                    onBackdropPress={()=> this.setState({modalVisibility:false})}
+                    onBackdropPress={()=> {
+                        let flag = false;
+                        this.props.user.weapons.forEach(e => {
+                            if(e.count > 0) flag = true;
+                        });
+                        if(flag)
+                            this.setState({modalVisibility:false})
+                        else
+                            Alert.alert(
+                                'No weapons',
+                                'You don\'t have any weapon. You may want to go to Shop to purchase some weapons' 
+                            );
+                    }}
                 >
                     <View
                         style={{
