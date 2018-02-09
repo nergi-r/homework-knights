@@ -40,6 +40,8 @@ export default class Quiz extends Component {
 			fadeAnimCorrect: new Animated.Value(0),
 			fadeAnimWrong: new Animated.Value(0),
 			currentTimeRemaining: 15000,
+			fadeAnimGold: new Animated.Value(0),
+			getGold: 0
 		};
 	};
 
@@ -82,6 +84,23 @@ export default class Quiz extends Component {
 		if (choiceIndex === correctAnswerIndex) {
 			this.onSwipeRightMechanism();
 			incrementGold(golds);
+			this.setState({ getGold: golds });
+            Animated.sequence([
+                Animated.timing(
+                  this.state.fadeAnimGold,
+                  {
+                    toValue: 1,
+                    duration: 100,
+                  }
+                ),
+                Animated.timing(
+                  this.state.fadeAnimGold,
+                  {
+                    toValue: 0,
+                    duration: 1000,
+                  }
+                ),
+            ]).start();
 		}
 		else {
 			this.onSwipeLeftMechanism();
@@ -154,6 +173,8 @@ export default class Quiz extends Component {
 		            cardIndex={0}
 		            backgroundColor={GREEN_COLOR}>
 		        </Swiper>
+			    <Animated.Text style={[styles.popUpGold, {opacity: this.state.fadeAnimGold}]}>+ {this.state.getGold}
+			    </Animated.Text>
 		        <View style={styles.timerContainer}>
 			      	<TimerCountdown
 			            initialSecondsRemaining={this.state.currentTimeRemaining}
@@ -223,5 +244,12 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		color: WHITE_COLOR,
 	},
-
+	popUpGold: {
+		position: 'absolute',
+		right: 20,
+		top: 10,
+		fontSize: 20,
+		fontWeight: 'bold',
+		color: '#FDCA50'
+	}
 });

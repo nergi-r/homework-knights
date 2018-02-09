@@ -29,7 +29,7 @@ export default class Challenge extends Component {
         super(props);
         this.state = {
             challenges: [],
-            user: null,
+            user: {golds: 0},
         }
         // this.state = {
         //     challenges : [
