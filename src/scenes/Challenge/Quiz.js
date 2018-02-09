@@ -19,16 +19,33 @@ export default class Quiz extends Component {
 		title: navigation.state.params.name,
         headerStyle: [
             MS.headerStyle, 
-            MS.headerShadowlessStyle
-        ],
-        headerTitleStyle: MS.headerTitleStyle,
+			MS.headerShadowlessStyle,
+		],
+		headerTintColor: WHITE_COLOR,
         headerRight: (
         	<View
         		style={{
         			flex: 1,
-        			marginRight: 15,
+					marginRight: 15,
+					alignItems: 'center',
+					flexDirection: 'row',
         		}}>
-        		<Text>{navigation.state.params.userGolds}</Text>
+				<Image
+					source={require('../../assets/gold.png')}
+					style={{
+						width: 30,
+						height: 30,
+						marginRight: 5,
+					}} />
+        		<Text
+					style={{
+						color: WHITE_COLOR,
+						fontSize: 20,
+						alignSelf: 'center',
+						justifyContent: 'center',
+					}}>
+					{navigation.state.params.userGolds}
+				</Text>
         	</View>
         )
 
@@ -82,6 +99,9 @@ export default class Quiz extends Component {
 		if (choiceIndex === correctAnswerIndex) {
 			this.onSwipeRightMechanism();
 			incrementGold(golds);
+			this.props.navigation.setParams({
+				userGolds: this.props.navigation.state.params.userGolds+golds,
+			});
 		}
 		else {
 			this.onSwipeLeftMechanism();

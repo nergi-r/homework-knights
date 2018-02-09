@@ -29,20 +29,26 @@ export default class Settings extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Settings',
         headerStyle: MS.headerStyle,
-        headerTitleStyle: MS.headerTitleStyle,
+        headerTintColor: WHITE_COLOR,
     });
 
     _menus = [
         {
             text: 'Logout',
             id: 'logout',
+        },
+        {
+            text: 'Stuff',
+            id: 'stuff',
         }
     ]
 
     _handleRenderItem = (item) => {
+        console.log(item);
         return(
             <TouchableOpacity
-                onPress={() => this._handleMenuSelected(item.id)}>
+                onPress={() => this._handleMenuSelected(item.id)}
+                style={styles.menuContainer}>
                 <View
                     style={styles.menuContainer}>
                     <Text
@@ -81,6 +87,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: GREY_COLOR,
         padding: 5,
+        flex: 1,
     },
     menuText: {
         color: '#000000',
