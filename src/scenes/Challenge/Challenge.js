@@ -9,7 +9,7 @@ import TabIcon from '../../components/TabIcon';
 import {
     TabNavigator
 } from 'react-navigation';
-import { fetchChallenges } from '../../services';
+import { fetchChallenges, fetchUser } from '../../services';
 
 export default class Challenge extends Component {
     static navigationOptions = ({navigation}) => ({
@@ -28,7 +28,8 @@ export default class Challenge extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            challenges: []
+            challenges: [],
+            user: null,
         }
         // this.state = {
         //     challenges : [
@@ -74,21 +75,31 @@ export default class Challenge extends Component {
         // };
 
         this._handleChallengesFetched = this._handleChallengesFetched.bind(this);
+        this._handleUserFetched = this._handleUserFetched.bind(this);
     }
 
     _handleChallengesFetched(challenges) {
         this.setState({ challenges });
     }
+    _handleUserFetched(user) {
+        this.setState({
+            user,
+        })
+    }
 
     componentWillMount() {
         fetchChallenges(this._handleChallengesFetched);
+        fetchUser(this._handleUserFetched);
     }
 
     onChallengeSelectedHandler = (key) => {
         var selectedChallenge = this.state.challenges.find((challenge) => {
             return (challenge.key===key);
         });
-        this.props.navigation.navigate('Quiz',selectedChallenge);
+        this.props.navigation.navigate('Quiz',{
+            ...selectedChallenge,
+            userGolds: this.state.user.golds,
+        });
     };
 
     render(){

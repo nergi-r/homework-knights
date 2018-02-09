@@ -22,6 +22,16 @@ export default class Quiz extends Component {
             MS.headerShadowlessStyle
         ],
         headerTitleStyle: MS.headerTitleStyle,
+        headerRight: (
+        	<View
+        		style={{
+        			flex: 1,
+        			marginRight: 15,
+        		}}>
+        		<Text>{navigation.state.params.userGolds}</Text>
+        	</View>
+        )
+
     });
 
 	constructor(props) {
