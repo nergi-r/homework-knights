@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {
-    View, StyleSheet, ActivityIndicator
+    View, 
+    StyleSheet, 
+    ActivityIndicator,
+    Alert,
 } from 'react-native';
 import ChallengeList from './ChallengeList';
 import { RED_COLOR, BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
@@ -96,11 +99,19 @@ export default class Challenge extends Component {
         var selectedChallenge = this.state.challenges.find((challenge) => {
             return (challenge.key===key);
         });
-        this.props.navigation.navigate('Quiz',{
-            ...selectedChallenge,
-            refreshCallback: this._handleChallengesFetched,
-            userGolds: this.state.user.golds,
-        });
+        if(selectedChallenge.questions.length>0){
+            this.props.navigation.navigate('Quiz',{
+                ...selectedChallenge,
+                refreshCallback: this._handleChallengesFetched,
+                userGolds: this.state.user.golds,
+            });
+        }
+        else {
+            Alert.alert(
+                'No question',
+                'There\'s no question available for this subject. Check back again later!',
+            )
+        }
     };
 
     render(){
@@ -122,6 +133,6 @@ export default class Challenge extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: RED_COLOR
+        backgroundColor: RED_COLOR,
     }
 });

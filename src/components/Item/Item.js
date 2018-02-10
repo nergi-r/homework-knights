@@ -104,5 +104,6 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 18,
         color: WHITE_COLOR,
+        textAlign: 'center',
     }
 })

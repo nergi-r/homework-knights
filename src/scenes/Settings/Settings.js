@@ -5,6 +5,8 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
+    Alert,
+    AsyncStorage,
 } from 'react-native';
 
 import {
@@ -38,22 +40,20 @@ export default class Settings extends Component {
             id: 'logout',
         },
         {
-            text: 'Stuff',
-            id: 'stuff',
+            text: 'About',
+            id: 'about',
         }
     ]
 
     _handleRenderItem = (item) => {
-        console.log(item);
         return(
             <TouchableOpacity
-                onPress={() => this._handleMenuSelected(item.id)}
-                style={styles.menuContainer}>
+                onPress={() => this._handleMenuSelected(item.item.id)}>
                 <View
                     style={styles.menuContainer}>
                     <Text
                         style={styles.menuText}>
-                        {item.text}
+                        {item.item.text}
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -61,7 +61,49 @@ export default class Settings extends Component {
     }
 
     _handleMenuSelected = (id) => {
-        alert(id)
+        if(id=='logout'){
+            Alert.alert(
+                'Logout',
+                'Are you sure you want to logout?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => {}
+                    },
+                    {
+                        text: 'Logout',
+                        onPress: () => {
+                            AsyncStorage.removeItem('store:auth')
+                            .then(() => {
+                                const resetAction = NavigationActions.reset({
+                                    index: 0,
+                                    actions: [
+                                        NavigationActions.navigate({ routeName: 'Login'})
+                                    ]
+                                });
+                                this.props.navigation.dispatch(resetAction);
+                            })
+                            .catch(err => {
+                                Alert.alert(
+                                    'Uh...',
+                                    'Something is wrong',
+                                );
+                            })
+                        }
+                    },
+                ]
+            )
+        }
+        else if(id=='about'){
+            Alert.alert(
+                'About',
+                'This software is created by: \n' +
+                'Albert Darmawan\n' +
+                'Nergi Rahardi\n' + 
+                'Sena Candra MPC\n\n' + 
+                'For Hackavidia 2018'
+            );
+        }
     }
 
     render(){
@@ -86,10 +128,11 @@ const styles = StyleSheet.create({
         backgroundColor: WHITE_COLOR,
         borderBottomWidth: 1,
         borderBottomColor: GREY_COLOR,
-        padding: 5,
+        padding: 15,
         flex: 1,
     },
     menuText: {
         color: '#000000',
+        fontSize: 16,
     },
 });
