@@ -12,7 +12,7 @@ import Swiper from 'react-native-deck-swiper';
 import TimerCountdown from 'react-native-timer-countdown';
 import { GREEN_COLOR, BLACK_COLOR, WHITE_COLOR } from '../../ColorHexa';
 import MS from '../Styles';
-import { incrementGold } from '../../services';
+import { incrementGold, removeQuestion, fetchChallenges } from '../../services';
 
 export default class Quiz extends Component {
 	static navigationOptions = ({navigation}) => ({
@@ -58,9 +58,15 @@ export default class Quiz extends Component {
 			fadeAnimWrong: new Animated.Value(0),
 			currentTimeRemaining: 15000,
 			fadeAnimGold: new Animated.Value(0),
-			getGold: 0
+			getGold: 0,
+			currentIndex: 0
 		};
 	};
+
+	componentWillUnmount() {
+		removeQuestion(this.props.navigation.state.params.questions[this.state.currentIndex]);
+		fetchChallenges(this.props.navigation.state.params.refreshCallback);
+	}
 
 	onAllSwipedHandler = ()=> {
 		Alert.alert(
@@ -187,13 +193,18 @@ export default class Quiz extends Component {
 		                    </View>
 		                )
 		            }}
+		            onSwiped={(cardIndex) => {
+		            	this.setState({currentIndex: cardIndex+1})
+		            	removeQuestion(this.props.navigation.state.params.questions[cardIndex])
+		            }}
 		            onSwipedAll={() => {this.onAllSwipedHandler()}}
 		            horizontalSwipe={false}
 		            verticalSwipe={false}
 		            cardIndex={0}
 		            backgroundColor={GREEN_COLOR}>
 		        </Swiper>
-			    <Animated.Text style={[styles.popUpGold, {opacity: this.state.fadeAnimGold}]}>+ {this.state.getGold}
+			    <Animated.Text style={[styles.popUpGold, {opacity: this.state.fadeAnimGold}]}>
+			    	+ {this.state.getGold}
 			    </Animated.Text>
 		        <View style={styles.timerContainer}>
 			      	<TimerCountdown
