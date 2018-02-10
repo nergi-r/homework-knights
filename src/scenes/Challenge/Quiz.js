@@ -56,7 +56,7 @@ export default class Quiz extends Component {
 		this.state = {
 			fadeAnimCorrect: new Animated.Value(0),
 			fadeAnimWrong: new Animated.Value(0),
-			currentTimeRemaining: 15000,
+			currentTimeRemaining: this.props.navigation.state.params.questions[0].duration,
 			fadeAnimGold: new Animated.Value(0),
 			getGold: 0,
 			currentIndex: 0
@@ -64,11 +64,15 @@ export default class Quiz extends Component {
 	};
 
 	componentWillUnmount() {
-		removeQuestion(this.props.navigation.state.params.questions[this.state.currentIndex]);
+		if(this.state.currentIndex<this.props.navigation.state.params.questions.length)
+			removeQuestion(this.props.navigation.state.params.questions[this.state.currentIndex]);
 		fetchChallenges(this.props.navigation.state.params.refreshCallback);
 	}
 
 	onAllSwipedHandler = ()=> {
+		this.setState({
+			currentTimeRemaining: 0,
+		});
 		Alert.alert(
 			'No More Question',
 			'We have no more question for you, at least for now!', 
@@ -88,7 +92,7 @@ export default class Quiz extends Component {
 		]).start();
 		this.swiper.swipeLeft();
 		this.setState({
-			currentTimeRemaining: 15000
+			currentTimeRemaining: this.props.navigation.state.params.questions[this.state.currentIndex].duration,
 		});
 	};
 
@@ -99,7 +103,7 @@ export default class Quiz extends Component {
 		]).start();
 		this.swiper.swipeRight();
 		this.setState({
-			currentTimeRemaining: 15000
+			currentTimeRemaining: this.props.navigation.state.params.questions[this.state.currentIndex].duration,
 		});
 	};
 
@@ -134,7 +138,8 @@ export default class Quiz extends Component {
 	};
 
 	onTimeOutHandler = () => {
-		this.onSwipeLeftMechanism();
+		if(this.state.currentIndex < this.props.navigation.state.params.questions.length)
+			this.onSwipeLeftMechanism();
 	};
 
 	render() {
@@ -143,13 +148,17 @@ export default class Quiz extends Component {
 		        <Swiper
 		        	ref={swiper => {
 			        	this.swiper = swiper
-			        }}
+					}}
 		            cards={this.props.navigation.state.params.questions}
 		            renderCard={(question) => {
 		                return (
-		                    <View style={styles.questionCard}>
-		                    	<Image style={styles.questionImage} source={{uri: question.image}} />
-		                    	<Text style={styles.questionText} >{question.description}</Text>
+		                    <View style={[
+								styles.questionCard,
+							]}>
+								{	question.image &&
+		                    		<Image style={styles.questionImage} source={{uri: question.image}} />
+								}
+		                    	<Text style={styles.questionText}>{question.description}</Text>
 		                    	<View style={styles.questionChoicesContainer}>
 		                    		<TouchableOpacity 
 		                    			style={styles.questionChoiceButton} 
@@ -241,8 +250,8 @@ const styles = StyleSheet.create({
 	},
 	questionText: {
 		fontSize: 25,
-		marginTop: 16,
-		marginBottom: 16,
+		margin: 16,
+		textAlign: 'center',
 	},
 	questionChoicesContainer: {
 		flexDirection: 'row',
